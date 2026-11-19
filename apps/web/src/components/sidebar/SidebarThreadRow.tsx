@@ -47,6 +47,7 @@ import {
   CircleDashedIcon,
   CircleDotDashedIcon,
   ClockIcon,
+  FolderIcon,
   GitBranchIcon,
   MessageCircleQuestionIcon,
   PinIcon,
@@ -554,6 +555,12 @@ const dropVerbBadge: Record<SidebarDropVerb, ReactNode> = {
       <T>Wake</T>
     </>
   ),
+  group: (
+    <>
+      <FolderIcon aria-hidden className="size-3" />
+      <T context="verb, the drop adds the thread to a group">Group</T>
+    </>
+  ),
 };
 
 const TOP_STATUS_ICONS = {
@@ -585,6 +592,8 @@ type SidebarThreadRowProps = {
   isPinned: boolean;
   sortable?: SortableThreadRowBag | undefined;
   dropVerb: SidebarDropVerb | null;
+  /** The group a drop would add the thread to, named on the badge because the dragged row covers it. */
+  dropGroupName?: string | null;
   dragOverPinned: boolean;
   sweepAction: SidebarSweepAction | null;
   snoozeWakeLabelText: string | null;
@@ -1057,7 +1066,14 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
         role="status"
         className="pointer-events-none ml-auto inline-flex h-5 shrink-0 items-center gap-1 rounded-sm border border-primary/40 bg-primary/10 px-1.5 text-2xs font-medium text-primary"
       >
-        {dropVerbBadge[destinationVerb]}
+        {destinationVerb === "group" && props.dropGroupName ? (
+          <>
+            <FolderIcon aria-hidden className="size-3 shrink-0" />
+            <span className="max-w-24 truncate">{props.dropGroupName}</span>
+          </>
+        ) : (
+          dropVerbBadge[destinationVerb]
+        )}
       </span>
     ) : null;
 

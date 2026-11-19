@@ -176,6 +176,10 @@ export function createSidebarSortingStrategy(input: {
     projected.push(...groups.pinned);
     marker("pinned-divider");
     section("active");
+    // The groups block is one item, so the rows below it keep clear of it as Active resizes.
+    if (items.some((item) => item.kind === "marker" && item.marker === "thread-groups")) {
+      marker("thread-groups");
+    }
     if (items.some((item) => item.kind === "marker" && item.marker === "working-header")) {
       marker("working-header");
       projected.push(...groups.working);

@@ -20,6 +20,10 @@ export type ThreadActionMenuId =
   | "snooze"
   | `snooze:${string}`
   | "unsnooze"
+  | "group"
+  | `group:set:${string}`
+  | "group:new"
+  | "group:remove"
   | "rename"
   | "regenerate-title"
   | "mark-unread"
@@ -121,6 +125,11 @@ export interface ThreadActionMenuState {
   readonly canShareWithGuest?: boolean;
   /** A No project thread with its own folder, on a server that can promote it. */
   readonly canTurnIntoProject?: boolean;
+  /** The project's thread groups and the one this thread is in. Absent where groups are not offered. */
+  readonly group?: {
+    readonly current: string | null;
+    readonly names: ReadonlyArray<string>;
+  };
 }
 
 /** Local navigation, read markers, and copying remain available to read-only clients. */
@@ -196,6 +205,33 @@ export function buildThreadActionMenuItems(
                   },
                 ],
               },
+        ]
+      : []),
+    ...(state.group
+      ? [
+          {
+            id: "group" as const,
+            label:
+              state.group.current === null
+                ? resolve(msg("Add to group"))
+                : resolve(msg("Move to group")),
+            icon: "folder",
+            children: [
+              ...state.group.names.map((name) => ({
+                id: `group:set:${name}` as const,
+                label: name,
+                checked: name === state.group?.current,
+              })),
+              {
+                id: "group:new" as const,
+                label: resolve(msg("New group…")),
+                separatorBefore: state.group.names.length > 0,
+              },
+              ...(state.group.current === null
+                ? []
+                : [{ id: "group:remove" as const, label: resolve(msg("Remove from group")) }]),
+            ],
+          },
         ]
       : []),
     { id: "rename", label: resolve(msg("Rename thread")), icon: "pencil", separatorBefore: true },

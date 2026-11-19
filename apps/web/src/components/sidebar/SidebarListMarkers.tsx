@@ -110,6 +110,19 @@ export function SidebarDragBoundary(props: {
   );
 }
 
+/** Every thread group in the flat list, as one item between the active rows and the shelves. */
+export function SidebarThreadGroupsBlock(props: { children: ReactNode }) {
+  return (
+    <SortableSidebarMarker
+      marker="thread-groups"
+      data-testid="sidebar-thread-groups"
+      className="flex flex-col gap-px pt-1"
+    >
+      {props.children}
+    </SortableSidebarMarker>
+  );
+}
+
 export function SidebarSectionHeader(props: {
   marker: "working-header" | "snoozed-header" | "settled-header";
   label: string;

@@ -160,6 +160,28 @@ Pinned threads stay above the folders, and Snoozed and Settled stay below them. 
 can drag a thread onto the composer to mention it, but not within the sidebar, and the Working
 section is off. Each device keeps its own choice.
 
+### Group threads
+
+On web and desktop, a thread group collects related threads of one project under a named,
+collapsible header, such as several threads working on the same feature. Open a thread's menu
+and choose **Add to group**, then pick a group or **New group…**. You can also drag an active
+thread onto a group; the dragged thread names the group it will join. A thread is in one group
+at a time. **Move to group** changes it and **Remove from group** returns it to the active list.
+
+Groups sit below the active list, or inside their project's folder when threads are grouped by
+project. A group lists its active and working threads. Pinned, snoozed, and settled threads stay
+in their own sections and return to the group when they become active again. A collapsed group
+shows a dot when one of its threads needs you.
+
+Right-click a group to rename it, give it a color, move it up or down, or delete it. Deleting a
+group keeps its threads. The server saves which group a thread is in, so that appears on your
+other devices. A group's color, position, and collapsed state are kept per device, as is a group
+that has no threads yet. Renaming or deleting a group updates the threads loaded on that device;
+an older settled thread that was not loaded keeps the previous group name.
+
+Threads in a group cannot be reordered by dragging. The mobile apps show grouped threads in
+the regular list.
+
 ## Settle finished work
 
 Choose **Settle thread** from its menu to move finished work out of the active list

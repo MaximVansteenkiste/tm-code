@@ -331,6 +331,9 @@ export function useThreadActions() {
   const reorderActiveThreadMutation = useOrchestrationCommand(threadEnvironment.reorderActive, {
     reportFailure: false,
   });
+  const setThreadTagMutation = useOrchestrationCommand(threadEnvironment.setTag, {
+    reportFailure: false,
+  });
   const snoozeThreadMutation = useOrchestrationCommand(threadEnvironment.snooze, {
     reportFailure: false,
   });
@@ -933,6 +936,12 @@ export function useThreadActions() {
     });
   };
 
+  const setThreadTag = (target: ScopedThreadRef, tag: string, tagged: boolean) =>
+    setThreadTagMutation({
+      environmentId: target.environmentId,
+      input: { threadId: target.threadId, tag, tagged },
+    });
+
   const unsnoozeThread = async (target: ScopedThreadRef) => {
     if (!readEnvironmentServerConfigLoaded(target.environmentId)) {
       return AsyncResult.failure(
@@ -1059,6 +1068,7 @@ export function useThreadActions() {
     confirmAndUnpinThread,
     reorderPinnedThread,
     reorderActiveThread,
+    setThreadTag,
     markThreadUnread,
     setThreadAutoSettle,
     turnThreadIntoProject: (target: ScopedThreadRef) =>

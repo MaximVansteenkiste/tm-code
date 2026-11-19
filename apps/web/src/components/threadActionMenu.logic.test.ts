@@ -74,4 +74,22 @@ describe("buildThreadActionMenuItems", () => {
     expect(items.find((item) => item.id === "archive")?.disabled).toBe(true);
     expect(items.find((item) => item.id === "turn-into-project")?.disabled).toBe(true);
   });
+
+  it("offers the project's groups, a new one, and the way out of the current one", () => {
+    const groupItem = (group: ThreadActionMenuState["group"]) =>
+      buildThreadActionMenuItems({ ...baseState, ...(group ? { group } : {}) }).find(
+        (item) => item.id === "group",
+      );
+    expect(groupItem(undefined)).toBeUndefined();
+    expect(
+      groupItem({ current: null, names: ["Galeno"] })?.children?.map((item) => item.id),
+    ).toEqual(["group:set:Galeno", "group:new"]);
+    const grouped = groupItem({ current: "Galeno", names: ["Galeno", "Catena"] });
+    expect(grouped?.children?.map((item) => [item.id, item.checked])).toEqual([
+      ["group:set:Galeno", true],
+      ["group:set:Catena", false],
+      ["group:new", undefined],
+      ["group:remove", undefined],
+    ]);
+  });
 });

@@ -308,6 +308,26 @@ describe("sidebar drag projection", () => {
     expect(result.get("a1")).toEqual(stationary);
   });
 
+  it("moves the thread groups block with the active rows above it", () => {
+    const items = [
+      pinnedHeader,
+      divider,
+      thread("a1", "active"),
+      thread("a2", "active"),
+      marker("thread-groups"),
+      settledHeader,
+      marker("settled-placeholder"),
+    ];
+    const result = preview(
+      { items, settledOrder: [], settledExpanded: true },
+      "a2",
+      sidebarMarkerId("pinned-header"),
+    );
+    expect(result.get("a1")).toEqual({ ...stationary, y: 83 });
+    expect(result.get(sidebarMarkerId("thread-groups"))).toEqual(stationary);
+    expect(result.get(sidebarMarkerId("settled-header"))).toEqual(stationary);
+  });
+
   it("preserves settled order while opening the zero-height Active target", () => {
     const items = [
       pinnedHeader,
